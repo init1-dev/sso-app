@@ -1,7 +1,7 @@
 # front
-front/node_modules
-front/dist
-front/.env
+frontend/node_modules
+frontend/dist
+frontend/.env
 
 # back
-back/node_modules
+backend/node_modules
