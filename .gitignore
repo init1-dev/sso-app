@@ -5,3 +5,4 @@ frontend/.env
 
 # back
 backend/node_modules
+backend/.env
