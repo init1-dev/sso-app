@@ -4,10 +4,11 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import cors from 'cors';
 import config from './utils/getEnv';
+import corsOptions from './utils/corsOptions';
 
 export const app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(session({
     secret: config.SESSION_SECRET,
     resave: false,
