@@ -2,8 +2,8 @@
 
 SSO auth app using Google.
 
-FRONTEND: React, Typescript, Router and @react-oauth/google.
-BACKEND: Node, TypeScript, Express and google-auth-library.
+- FRONTEND: React, Typescript, Router and @react-oauth/google.
+- BACKEND: Node, TypeScript, Express and google-auth-library.
 
 ## Instructions
 
