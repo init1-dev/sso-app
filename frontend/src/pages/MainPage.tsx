@@ -27,7 +27,7 @@ const MainPage = () => {
 
                 {   !user
                         ? <GoogleAuth user={user} setUser={setUser}/>
-                        : <Navigate to={"/profile"} state={{ user: user }} replace/>
+                        : <Navigate to={"/profile"} replace/>
                 }
             </div>
 

@@ -1,21 +1,39 @@
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { User } from '../../utils/interfaces/interfaces';
+import { saveToLocalStorage } from '../../utils/functions/functionsModule';
 
 interface GoogleAuthProps {
     user: any;
     setUser: Dispatch<SetStateAction<any>>;
 }
 
-const saveToLocalStorage = (itemName: string, value: User) => {
-    localStorage.setItem(itemName, JSON.stringify(value));
-};
-
 const GoogleAuth = ({
     setUser
 }: GoogleAuthProps) => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
+        try {
+            const { credential } = credentialResponse;
+
+            const response = await fetch('http://localhost:5000/google-auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    credential,
+                    client_id: clientId
+                }),
+            });
+
+            const data = await response.json();
+            saveToLocalStorage('user', data);
+            setUser(data);
+        } catch (error) {
+            console.error('Error during Google login:', error);
+        }
+    };
 
     return (
         <AuthContainer>
@@ -23,23 +41,7 @@ const GoogleAuth = ({
 
             <GoogleOAuthProvider clientId={clientId}>
                 <GoogleLogin
-                    onSuccess={ async (credentialResponse) => {
-                        const { credential } = credentialResponse;
-
-                        const response = await fetch('http://localhost:5000/google-auth', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                credential,
-                                client_id: clientId
-                            })
-                        });
-                        const data = await response.json();
-                        saveToLocalStorage('user', data);
-                        setUser(data);
-                    }}
+                    onSuccess={handleLoginSuccess}
                     onError={() => {
                         console.log('Login Failed');
                     }}

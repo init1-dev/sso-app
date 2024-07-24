@@ -39,3 +39,13 @@ app.post("/google-auth", async (req, res) => {
         res.status(400).json({ error: 'Invalid token' });
     }
 })
+
+app.post("/logout", (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error during logout:', err);
+            return res.status(500).json({ error: 'Logout failed' });
+        }
+        res.status(200).json({ message: 'Logout successful' });
+    });
+});

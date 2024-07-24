@@ -1,34 +1,63 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import styled from "styled-components";
 import { User } from "../utils/interfaces/interfaces";
+import { useState } from "react";
+import { removeUserFromLocalStorage } from "../utils/functions/localStorage";
 
 const ProfileComponent = () => {
-    const location = useLocation();
-    const { user } = location.state as { user: User } || { user: null }
+    const persistentUser = localStorage.getItem('user');
+    const parsedUser: User = persistentUser ? JSON.parse(persistentUser) : null;
+    const [ user, setUser ] = useState<User | null>(parsedUser);
+
+    const handleLogoutSuccess = async () => {
+        try {
+            await fetch('http://localhost:5000/logout', {
+                method: 'POST',
+            });
+
+            setUser(null);
+            removeUserFromLocalStorage('user');
+            
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    };
 
     return (
         user !== null
-            ?   <UserCard>
-                    <StyledH2>User details:</StyledH2>
+            ?   <ProfileContainer>
+                    <UserCard>
+                        <StyledH2>User details:</StyledH2>
 
-                    <p>Profile image:</p>
+                        <p>Profile image:</p>
 
-                    <img src={user.picture} alt={user.name} />
+                        <img src={user.picture} alt={user.name} />
 
-                    <p>Name: 
-                        <strong> {user.name}</strong>
-                    </p>
+                        <p>Name: 
+                            <strong> {user.name}</strong>
+                        </p>
 
-                    <p>email: 
-                        <strong> {user.email}</strong>
-                    </p>
-                    <p>id: 
-                        <strong> {user.id}</strong>
-                    </p>
-                </UserCard>
+                        <p>email: 
+                            <strong> {user.email}</strong>
+                        </p>
+                        <p>id: 
+                            <strong> {user.id}</strong>
+                        </p>
+                    </UserCard>
+
+                    <Button onClick={handleLogoutSuccess}>
+                        Logout
+                    </Button>
+                </ProfileContainer>
             :   <Navigate to={"/sso-login"} replace/>
     );
 }
+
+const ProfileContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
 
 const UserCard = styled.div`
     background-color: white;
@@ -41,6 +70,12 @@ const UserCard = styled.div`
 
     img {
         border: 1px solid black;
+    }
+`;
+
+const Button = styled.button`
+    &:hover {
+        border: 1px solid rgba(159, 204, 216, 0.5);
     }
 `;
 
