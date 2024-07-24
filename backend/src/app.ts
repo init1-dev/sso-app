@@ -46,6 +46,6 @@ app.post("/logout", (req, res) => {
             console.error('Error during logout:', err);
             return res.status(500).json({ error: 'Logout failed' });
         }
-        res.status(200).json({ message: 'Logout successful' });
+        res.status(200).json({ message: 'Logged out successfully' });
     });
 });

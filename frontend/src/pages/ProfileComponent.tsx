@@ -2,26 +2,12 @@ import { Navigate } from "react-router-dom";
 import styled from "styled-components";
 import { User } from "../utils/interfaces/interfaces";
 import { useState } from "react";
-import { removeUserFromLocalStorage } from "../utils/functions/localStorage";
+import { handleLogoutSuccess } from "../utils/functions/functionsModule";
 
 const ProfileComponent = () => {
     const persistentUser = localStorage.getItem('user');
     const parsedUser: User = persistentUser ? JSON.parse(persistentUser) : null;
     const [ user, setUser ] = useState<User | null>(parsedUser);
-
-    const handleLogoutSuccess = async () => {
-        try {
-            await fetch('http://localhost:5000/logout', {
-                method: 'POST',
-            });
-
-            setUser(null);
-            removeUserFromLocalStorage('user');
-            
-        } catch (error) {
-            console.error('Error during logout:', error);
-        }
-    };
 
     return (
         user !== null
@@ -45,7 +31,7 @@ const ProfileComponent = () => {
                         </p>
                     </UserCard>
 
-                    <Button onClick={handleLogoutSuccess}>
+                    <Button onClick={() => handleLogoutSuccess(setUser)}>
                         Logout
                     </Button>
                 </ProfileContainer>

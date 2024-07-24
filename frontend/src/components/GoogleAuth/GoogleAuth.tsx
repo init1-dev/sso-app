@@ -1,7 +1,7 @@
-import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { saveToLocalStorage } from '../../utils/functions/functionsModule';
+import { handleLoginSuccess } from '../../utils/functions/functionsModule';
 
 interface GoogleAuthProps {
     user: any;
@@ -12,28 +12,6 @@ const GoogleAuth = ({
     setUser
 }: GoogleAuthProps) => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
-        try {
-            const { credential } = credentialResponse;
-
-            const response = await fetch('http://localhost:5000/google-auth', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    credential,
-                    client_id: clientId
-                }),
-            });
-
-            const data = await response.json();
-            saveToLocalStorage('user', data);
-            setUser(data);
-        } catch (error) {
-            console.error('Error during Google login:', error);
-        }
-    };
 
     return (
         <AuthContainer>
@@ -41,7 +19,7 @@ const GoogleAuth = ({
 
             <GoogleOAuthProvider clientId={clientId}>
                 <GoogleLogin
-                    onSuccess={handleLoginSuccess}
+                    onSuccess={(credentialResponse) => handleLoginSuccess(credentialResponse, clientId, setUser)}
                     onError={() => {
                         console.log('Login Failed');
                     }}
