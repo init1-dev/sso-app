@@ -1,0 +1,34 @@
+name: prodigiosovolcan
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "9778:5173"
+    environment:
+      - VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - SESSION_SECRET=${SESSION_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - PORT=5000
+    volumes:
+      - ./backend:/app
+    # command: npm start
+
+networks:
+  default:
+    name: prodigiosovolcan

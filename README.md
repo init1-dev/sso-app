@@ -35,3 +35,6 @@ cd ../backend
 npm i
 npm run dev
 ```
+
+## Current bugs
+- docker: frontend does not work properly, i'm trying to fix it
