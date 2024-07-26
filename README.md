@@ -26,7 +26,12 @@ rand -base64 32
 ```
 - GOOGLE_CLIENT_ID : Use your GOOGLE_CLIENT_ID
 
-### Install dependencies and run
+### Docker
+```bash
+docker compose up
+```
+
+### Install dependencies and run (local)
 ```bash
 cd frontend
 npm i
