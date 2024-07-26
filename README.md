@@ -27,8 +27,14 @@ rand -base64 32
 - GOOGLE_CLIENT_ID : Use your GOOGLE_CLIENT_ID
 
 ### Docker
+- Run docker instance:
 ```bash
 docker compose up
+```
+
+- Check container status
+```bash
+docker container ls
 ```
 
 ### Install dependencies and run (local)
