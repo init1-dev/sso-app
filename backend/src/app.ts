@@ -18,6 +18,14 @@ app.use(session({
 
 const client = new OAuth2Client();
 
+app.get("/", (_req, res) => {
+    res.json({
+        apiName: "prodigiosovolcan-backend",
+        status: "ready",
+        listening: true
+    })
+})
+
 app.post("/google-auth", async (req, res) => {
     const { credential, client_id } = req.body;
     

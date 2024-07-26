@@ -1,15 +1,11 @@
-FROM node:21
+FROM node:alpine
 
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install --ignore-platform
+WORKDIR /usr/src/app
 
 COPY . .
 
-# RUN npm run build
+RUN npm install
 
 EXPOSE 5000
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
