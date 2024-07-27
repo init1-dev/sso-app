@@ -1,4 +1,4 @@
-.git
+**/.git
 **/.vs
 **/.vscode
 **/.dockerignore
@@ -10,6 +10,6 @@
 **/node_modules
 **/build
 **/dist
-**/LICENSE
-**/README.md
 **/npm-debug.log
+LICENSE
+README.md

@@ -2,46 +2,45 @@ name: prodigiosovolcan
 
 services:
   frontend:
+    container_name: frontend
     build:
       context: ./frontend
-    container_name: frontend
-    working_dir: /usr/src/app
+    depends_on:
+      - backend
     networks: 
       - node-network
-    volumes: 
-      - ./frontend:/usr/src/app
-      - /usr/src/app/node_modules
-    tty: true
     ports:
       - "9778:5173"
     environment:
       - VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}
-    command: npm run dev
+    develop:
+      watch:
+        - path: ./frontend/package.json
+          action: rebuild
+        - path: ./frontend
+          target: /usr/src/app
+          action: sync
 
   backend:
+    container_name: backend
     build:
       context: ./backend
-    container_name: backend
-    working_dir: /usr/src/app
     networks: 
       - node-network
-    volumes: 
-      - ./backend:/usr/src/app
-      - /usr/src/app/node_modules
-    tty: true
     ports:
       - "5000:5000"
-    # develop:
-    #   watch:
-    #     - action: sync
-    #       path: .
-    #       target: /usr/src/app
     environment:
       - SESSION_SECRET=${SESSION_SECRET}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - PORT=5000
-    command: npm run dev
+    develop:
+      watch:
+        - path: ./backend/package.json
+          action: rebuild
+        - path: ./backend
+          target: /usr/src/app
+          action: sync
 
 networks:
   node-network:

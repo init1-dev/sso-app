@@ -27,9 +27,14 @@ rand -base64 32
 - GOOGLE_CLIENT_ID : Use your GOOGLE_CLIENT_ID
 
 ### Docker:
-- Run docker instance:
+- Run instance:
 ```bash
 docker compose up
+```
+
+- Run instance watching changes:
+```bash
+docker compose up --watch
 ```
 
 - Check container status:
@@ -50,3 +55,5 @@ npm run dev
 ## Known bugs:
 
 ## TODO:
+- nginx
+- SSL
