@@ -9,6 +9,9 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 RUN npm install -g nodemon
 
+# COPY package*.json ./
+# RUN npm install
+
 COPY . .
 
 EXPOSE 5000

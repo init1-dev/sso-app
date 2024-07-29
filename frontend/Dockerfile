@@ -7,6 +7,9 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --include=dev
 
+# COPY package*.json ./
+# RUN npm install
+
 COPY . .
 
 EXPOSE 5173
