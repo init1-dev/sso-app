@@ -26,6 +26,14 @@ rand -base64 32
 ```
 - GOOGLE_CLIENT_ID : Use your GOOGLE_CLIENT_ID
 
+### Setup Google OAuth client:
+
+Credentials: (JavaScript authorised sources)
+    - http://localhost
+    - http://localhost:5173
+    - http://localhost:5000
+    - http://localhost:9778
+
 ### Docker:
 - Run instance:
 ```bash

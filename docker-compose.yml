@@ -50,31 +50,28 @@ services:
           target: /usr/src/app
           action: sync
 
-  # nginx:
-  #   image: nginx:latest
-  #   container_name: nginx
-  #   volumes:
-  #     - ./nginx/conf/:/etc/nginx/conf.d/:ro
-  #     - ./certbot/www/:/var/www/certbot/:ro
-  #   # restart: always
-  #   ports:
-  #     - "80:80"
-  #     # - "443:443"
-  #   depends_on:
-  #     - frontend
-  #     - backend
-  #   networks:
-  #     - node-network
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certs/:/etc/nginx/certs/sso-app.in1t.dev:ro
+    # restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - node-network
 
   # certbot:
-  #   container_name: certbot
-  #   image: certbot/certbot:latest
+  #   image: certbot/certbot
   #   volumes:
-  #     - ./certbot/www/:/var/www/certbot/:rw
-  #     - ./certbot/conf/:/etc/letsencrypt/:rw
-  #   # entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done"
-  #   networks:
-  #     - node-network
+  #     - ./etc-letsencrypt:/etc/letsencrypt
+  #     - ./var-lib-letsencrypt:/var/lib/letsencrypt
+  #     - ./var-log-letsencrypt:/var/log/letsencrypt
 
 networks:
   node-network:
